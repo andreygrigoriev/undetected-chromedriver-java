@@ -369,12 +369,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/CdpIT.java`
 - Create: `src/test/resources/pages/frames.html`
 
-- [ ] implement `reconnect(Duration)` as described in Solution Overview, logging and swallowing each step's failure as upstream does
-- [ ] override `startSession(Capabilities)` so that null falls back to the stored attach capabilities, but only once `context` is set
-- [ ] implement `windowNew()` (`DriverCommand.NEW_WINDOW` type=window) and `tabNew(url)` (delegates to `Cdp.tabNew`)
-- [ ] implement `findElementsRecursive(By)` as a lazy `Iterable<WebElement>` (custom `Iterator`) that switches frame before each element is yielded, matching the generator semantics
-- [ ] write `FrameSearchIT` (local page with 2 iframes: elements found in the top level and in each frame, each element usable when yielded), `ReconnectIT` (session works after two reconnects in a row, the old service is stopped, browser PID unchanged) and `CdpIT` (`tabNew` opens a page that `tabList` shows, `send("Runtime.evaluate", …)` returns a result)
-- [ ] run tests; they must pass before task 16
+- [x] implement `reconnect(Duration)` as described in Solution Overview, logging and swallowing each step's failure as upstream does
+- [x] override `startSession(Capabilities)` so that null falls back to the stored attach capabilities, but only once `context` is set
+- [x] implement `windowNew()` (`DriverCommand.NEW_WINDOW` type=window) and `tabNew(url)` (delegates to `Cdp.tabNew`)
+- [x] implement `findElementsRecursive(By)` as a lazy `Iterable<WebElement>` (custom `Iterator`) that switches frame before each element is yielded, matching the generator semantics
+- [x] write `FrameSearchIT` (local page with 2 iframes: elements found in the top level and in each frame, each element usable when yielded), `ReconnectIT` (session works after two reconnects in a row, the old service is stopped, browser PID unchanged) and `CdpIT` (`tabNew` opens a page that `tabList` shows, `send("Runtime.evaluate", …)` returns a result)
+- [x] run tests; they must pass before task 16
 
 ### Task 16: Reactor (CDP event listeners)
 

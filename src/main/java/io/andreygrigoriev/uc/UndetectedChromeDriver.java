@@ -1,7 +1,18 @@
 package io.andreygrigoriev.uc;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.SessionNotCreatedException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.AddHasCasting;
+import org.openqa.selenium.chrome.AddHasCdp;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chromium.ChromiumDriverCommandExecutor;
+import org.openqa.selenium.remote.CommandInfo;
+import org.openqa.selenium.remote.DriverCommand;
+import org.openqa.selenium.remote.http.ClientConfig;
+import java.util.HashMap;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.logging.LogType;
@@ -58,6 +69,70 @@ public class UndetectedChromeDriver extends ChromeDriver {
 
     public Path userDataDir() {
         return context.profile().dir();
+    }
+
+    /** A fresh DevTools HTTP/WebSocket client for the browser this driver launched. */
+    public Cdp cdp() {
+        return new Cdp(context.debuggerAddress());
+    }
+
+    /** Opens a new tab at {@code url} through the DevTools HTTP API. */
+    public JsonNode tabNew(String url) {
+        return cdp().tabNew(url);
+    }
+
+    /** Opens a new window and returns its handle; the driver stays on the current window. */
+    public String windowNew() {
+        Object value = execute(DriverCommand.SWITCH_TO_NEW_WINDOW, Map.of("type", "window")).getValue();
+        return value instanceof Map<?, ?> map ? String.valueOf(map.get("handle")) : null;
+    }
+
+    /**
+     * Elements matching {@code by} in the top-level document and in every nested frame, found lazily. The driver
+     * is switched into the right frame before each element is returned.
+     */
+    public Iterable<WebElement> findElementsRecursive(By by) {
+        return new FrameSearch(this, by);
+    }
+
+    /**
+     * Restarts chromedriver and attaches a new session to the same browser. Every step is logged and swallowed on
+     * failure, so the session may still be unusable afterwards.
+     */
+    public void reconnect(Duration wait) {
+        if (context == null) {
+            return;
+        }
+        context.service().stop();
+        try {
+            Thread.sleep(wait.toMillis());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        try {
+            ChromeDriverService service = context.serviceFactory().get();
+            context.service().set(service);
+            setCommandExecutor(new ChromiumDriverCommandExecutor(service, extraCommands(), ClientConfig.defaultConfig()));
+        } catch (RuntimeException e) {
+            LOG.warn("Could not start a new chromedriver service", e);
+        }
+        try {
+            startSession(context.attachOptions());
+        } catch (RuntimeException e) {
+            LOG.warn("Could not start a new session", e);
+        }
+    }
+
+    private static Map<String, CommandInfo> extraCommands() {
+        Map<String, CommandInfo> commands = new HashMap<>();
+        commands.putAll(new AddHasCasting().getAdditionalCommands());
+        commands.putAll(new AddHasCdp().getAdditionalCommands());
+        return commands;
+    }
+
+    @Override
+    protected void startSession(Capabilities capabilities) {
+        super.startSession(capabilities == null && context != null ? context.attachOptions() : capabilities);
     }
 
     @Override
