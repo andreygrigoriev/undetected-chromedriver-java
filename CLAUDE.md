@@ -12,7 +12,7 @@ Java 25 / Selenium 4 port of ultrafunkamsterdam/undetected-chromedriver v3.5.5. 
 - Single unit test: `rtk ./mvnw test -Dtest=PatcherTest#methodName`
 - Single IT: `rtk ./mvnw verify -Dtest=none -Dsurefire.failIfNoSpecifiedTests=false -Dit.test=CdpIT`
 - Coverage: jacoco report is written to `target/site/jacoco/` in the `test` phase.
-- Release to Maven Central (always run locally by the user, no CI workflow): `./mvnw -Prelease deploy`; needs the `central` server in `~/.m2/settings.xml` and the GPG key (passphrase via pinentry or `MAVEN_GPG_PASSPHRASE`). Check without signing: `rtk ./mvnw -Prelease -Dgpg.skip package`. Coordinates `io.github.andreygrigoriev:undetected-chromedriver-java`.
+- Release to Maven Central (always run locally by the user, no CI workflow): `make release VERSION=X.Y.Z` from a clean `master` in sync with origin. It sets the version for the deploy only (pom.xml is restored), runs `./mvnw -Prelease clean deploy`, then pushes tag `vX.Y.Z`. Needs the `central` server in `~/.m2/settings.xml` and the GPG key. `make release-dry-run` builds the bundle without signing or uploading. Coordinates `io.github.andreygrigoriev:undetected-chromedriver-java`.
 - Docker (amd64, Xvfb): `docker build -t uc-java .` then `docker run --rm --shm-size=2g uc-java`
 
 Mockito runs as a `-javaagent` (wired through `maven-dependency-plugin:properties` and `@{argLine}`), so tests run outside Maven may need the same agent.
