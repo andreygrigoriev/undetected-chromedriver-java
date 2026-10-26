@@ -291,12 +291,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/LaunchArguments.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/LaunchArgumentsTest.java`
 
-- [ ] implement `assemble(userArgs, settings)` following the numbered `LaunchArguments` spec in Technical Details, without changing the input list. Python's loop removes items from the list it's iterating over and skips elements; this version doesn't
-- [ ] implement language resolution (user value, bare `--lang`, system locale, `en-US`) and the four-level `userDataDir` precedence
-- [ ] choose the headless flag by `versionMain` (<108 → `--headless=chrome`, ≥108 or unknown → `--headless=new`)
-- [ ] write tests: defaults (the exact expected list), user `--headless` removed and replaced, each `userDataDir` precedence branch with the right keep flag, `suppressWelcome=false` omits its flags, `noSandbox=false` omits `--test-type` but `--no-sandbox` is still present
-- [ ] write tests for `--lang`: user value, bare `--lang`, injected default locale. Edge cases: two consecutive headless args, empty user args
-- [ ] run tests; they must pass before task 11
+- [x] implement `assemble(userArgs, settings)` following the numbered `LaunchArguments` spec in Technical Details, without changing the input list. Python's loop removes items from the list it's iterating over and skips elements; this version doesn't
+- [x] implement language resolution (user value, bare `--lang`, system locale, `en-US`) and the four-level `userDataDir` precedence
+- [x] choose the headless flag by `versionMain` (<108 → `--headless=chrome`, ≥108 or unknown → `--headless=new`)
+- [x] write tests: defaults (the exact expected list), user `--headless` removed and replaced, each `userDataDir` precedence branch with the right keep flag, `suppressWelcome=false` omits its flags, `noSandbox=false` omits `--test-type` but `--no-sandbox` is still present
+- [x] write tests for `--lang`: user value, bare `--lang`, injected default locale. Edge cases: two consecutive headless args, empty user args
+- [x] run tests; they must pass before task 11
 
 ### Task 11: Browser process launch
 
