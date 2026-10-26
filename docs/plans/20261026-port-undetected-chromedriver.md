@@ -333,13 +333,15 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/UndetectedChromeDriverIT.java`
 - Create: `src/test/resources/pages/detect.html`
 
-- [ ] implement `newBuilder()` with all options from Technical Details, and `prepare()` → `LaunchContext` (steps 1–10 of the `build()` flow, testable without starting a driver), including rollback if a step fails
-- [ ] implement the private constructor: `super(service, attachOptions)`, store the context, register the `Cleaner` (its state is `ServiceHolder` and `BrowserProcess`, never `this`), and keep every override null-safe while `super` is running
-- [ ] implement the `quit()` sequence (idempotent), `browserPid()` and `userDataDir()`
-- [ ] implement debug mode by overriding `execute(CommandPayload)` to log the command name and params at DEBUG
-- [ ] write unit tests for `prepare()` with a stub patcher and a `Sleeper` browser: debugger address, `goog:loggingPrefs` only when CDP events are on, top-level user capabilities kept, `goog:chromeOptions` reduced to `debuggerAddress`, a missing browser raises the error with the hint text, and a failure after launch terminates the browser
-- [ ] write `UndetectedChromeDriverIT`: launch (once with `debug=true`, to prove construction is null-safe), load `detect.html`, assert `navigator.webdriver === false` and no `cdc_` keys, then `quit()` and assert the browser PID is dead and the temp profile is gone
-- [ ] run unit tests and ITs; they must pass before task 14
+- [x] implement `newBuilder()` with all options from Technical Details, and `prepare()` → `LaunchContext` (steps 1–10 of the `build()` flow, testable without starting a driver), including rollback if a step fails
+- [x] implement the private constructor: `super(service, attachOptions)`, store the context, register the `Cleaner` (its state is `ServiceHolder` and `BrowserProcess`, never `this`), and keep every override null-safe while `super` is running
+- [x] implement the `quit()` sequence (idempotent), `browserPid()` and `userDataDir()`
+- [x] implement debug mode by overriding `execute(CommandPayload)` to log the command name and params at DEBUG
+- [x] write unit tests for `prepare()` with a stub patcher and a `Sleeper` browser: debugger address, `goog:loggingPrefs` only when CDP events are on, top-level user capabilities kept, `goog:chromeOptions` reduced to `debuggerAddress`, a missing browser raises the error with the hint text, and a failure after launch terminates the browser
+- [x] write `UndetectedChromeDriverIT`: launch (once with `debug=true`, to prove construction is null-safe), load `detect.html`, assert `navigator.webdriver === false` and no `cdc_` keys, then `quit()` and assert the browser PID is dead and the temp profile is gone
+- [x] run unit tests and ITs; they must pass before task 14
+- ➕ [x] macOS arm64 kills a patched chromedriver (exit 137, invalid signature): `Patcher` now re-signs ad hoc with `codesign` after patching on macOS
+- ⚠️ `serviceArgs` is not supported: Selenium 4.51 `ChromeDriverService.Builder` has no generic argument hook; only `serviceLogFile` is offered. Browser is resolved before patching so its version can pick the driver
 
 ### Task 14: Headless evasions
 

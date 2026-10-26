@@ -99,7 +99,7 @@ public class Patcher {
             throw new IllegalArgumentException("Driver executable not found: " + exe);
         }
         if (!BinaryPatcher.isPatched(exe)) {
-            withForceKill(exe, () -> BinaryPatcher.patch(exe));
+            withForceKill(exe, () -> patchAndSign(exe));
         }
         return exe;
     }
@@ -108,7 +108,30 @@ public class Patcher {
         if (!Files.isRegularFile(target)) {
             downloader.download(releases.downloadUrl(version, platform), platform, target);
         }
-        BinaryPatcher.patch(target);
+        patchAndSign(target);
+    }
+
+    private void patchAndSign(Path exe) {
+        BinaryPatcher.patch(exe);
+        signOnMac(exe);
+    }
+
+    /** Patching breaks the code signature, and macOS kills a binary whose signature is invalid, so re-sign ad hoc. */
+    private void signOnMac(Path exe) {
+        if (platform.os() != Platform.Os.MAC) {
+            return;
+        }
+        try {
+            Process p = new ProcessBuilder("codesign", "--force", "--sign", "-", exe.toString())
+                    .redirectErrorStream(true).redirectOutput(ProcessBuilder.Redirect.DISCARD).start();
+            if (!p.waitFor(30, java.util.concurrent.TimeUnit.SECONDS) || p.exitValue() != 0) {
+                LOG.warn("codesign of {} did not succeed; the driver may be killed by macOS", exe);
+            }
+        } catch (IOException e) {
+            LOG.warn("Could not run codesign on {}", exe, e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private Integer effectiveVersionMain() {
