@@ -427,10 +427,10 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - [x] confirm unit coverage of the non-browser classes (`Platform`, `DriverReleases`, `BinaryPatcher`, `Patcher`, `Prefs`, `Profile`, `LaunchArguments`, `Reactor`, `Cdp`) is ≥ 80% (add `jacoco-maven-plugin` if needed)
 
 ### Task 20: [Final] Update documentation
-- [ ] write `README.md`: install, quick start (`newBuilder()`), table mapping each Python argument to its builder method, CDP listeners, headless caveats, known differences from upstream (cache, narrowed headless match, fixed JS, dropped args), the `CdpVersionFinder` warning with how to silence it, and a Docker section (`docker build`/`docker run --shm-size=2g`, amd64-only, mounting your own project)
-- [ ] add the upstream GPL-3.0 `LICENSE`
-- [ ] create `CLAUDE.md` with the build/test commands and the package layout
-- [ ] move this plan to `docs/plans/completed/`
+- [x] write `README.md`: install, quick start (`newBuilder()`), table mapping each Python argument to its builder method, CDP listeners, headless caveats, known differences from upstream (cache, narrowed headless match, fixed JS, dropped args), the `CdpVersionFinder` warning with how to silence it, and a Docker section (`docker build`/`docker run --shm-size=2g`, amd64-only, mounting your own project)
+- [x] add the upstream GPL-3.0 `LICENSE`
+- [x] create `CLAUDE.md` with the build/test commands and the package layout
+- [x] move this plan to `docs/plans/completed/`
 
 ## Post-Completion
 *Items requiring manual intervention or external systems - no checkboxes, informational only*
