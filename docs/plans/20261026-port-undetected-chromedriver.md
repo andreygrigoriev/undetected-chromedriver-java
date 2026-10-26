@@ -265,12 +265,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/OptionsViewTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/PrefsTest.java`
 
-- [ ] implement `UndetectedChromeOptions`: `userDataDir` (absolute, normalized) and the reuse guard (`bind()` throws `IllegalStateException` the second time)
-- [ ] implement `OptionsView.of(ChromeOptions)`: `args()`, `binary()`, `prefs()`, `debuggerAddress()` and `topLevelCapabilities()` (everything except `goog:chromeOptions`), all read from `asMap()`
-- [ ] implement `Prefs.undot`, `mergeNested` (leaf values from b override a, maps merge recursively) and `writeTo(profileDir)`, which merges into the existing `Default/Preferences` (latin1)
-- [ ] write tests: dotted keys become nested, merge overrides leaves while keeping siblings, the existing Preferences file is merged, and `OptionsView` reads args, prefs and binary from a plain `ChromeOptions`
-- [ ] write tests: binding twice throws, missing `goog:chromeOptions` gives empty views
-- [ ] run tests; they must pass before task 9
+- [x] implement `UndetectedChromeOptions`: `userDataDir` (absolute, normalized) and the reuse guard (`bind()` throws `IllegalStateException` the second time)
+- [x] implement `OptionsView.of(ChromeOptions)`: `args()`, `binary()`, `prefs()`, `debuggerAddress()` and `topLevelCapabilities()` (everything except `goog:chromeOptions`), all read from `asMap()`
+- [x] implement `Prefs.undot`, `mergeNested` (leaf values from b override a, maps merge recursively) and `writeTo(profileDir)`, which merges into the existing `Default/Preferences` (latin1)
+- [x] write tests: dotted keys become nested, merge overrides leaves while keeping siblings, the existing Preferences file is merged, and `OptionsView` reads args, prefs and binary from a plain `ChromeOptions`
+- [x] write tests: binding twice throws, missing `goog:chromeOptions` gives empty views
+- [x] run tests; they must pass before task 9
 
 ### Task 9: Profile handling
 
