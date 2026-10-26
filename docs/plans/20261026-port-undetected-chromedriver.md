@@ -165,13 +165,13 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/SmokeTest.java`
 - Create: `src/test/resources/simplelogger.properties`
 
-- [ ] add dependencies: `selenium-chrome-driver` 4.51.0, `jackson-databind` 2.22.4, `slf4j-api` 2.0.20. Test scope: `junit-jupiter` 6.1.3, `assertj-core` 3.27.7, `mockito-core` 5.24.0, `slf4j-simple` 2.0.20
-- [ ] replace `maven.compiler.source`/`target` with `maven.compiler.release=25`
-- [ ] configure `maven-surefire-plugin` 3.6.1 (excludes the `browser` tag) with `argLine` `-javaagent:${org.mockito:mockito-core:jar}` (via `maven-dependency-plugin:properties`), and `maven-failsafe-plugin` 3.6.1 (`*IT.java`, `verify` goal)
-- [ ] generate the Maven wrapper (`mvn wrapper:wrapper`)
-- [ ] re-check the Selenium facts listed in Context against the 4.51 sources jar (constructor calls during `super`, `DriverService.stop` closes its executor, `setCommandExecutor`/`setElementConverter`/`newRemoteWebElement` visibility, `ChromiumDriverCommandExecutor` constructor), and update this plan if anything differs
-- [ ] write a trivial `SmokeTest` that proves JUnit, AssertJ and Mockito run
-- [ ] run `rtk ./mvnw test`; it must pass before task 2
+- [x] add dependencies: `selenium-chrome-driver` 4.51.0, `jackson-databind` 2.22.4, `slf4j-api` 2.0.20. Test scope: `junit-jupiter` 6.1.3, `assertj-core` 3.27.7, `mockito-core` 5.24.0, `slf4j-simple` 2.0.20
+- [x] replace `maven.compiler.source`/`target` with `maven.compiler.release=25`
+- [x] configure `maven-surefire-plugin` 3.6.1 (excludes the `browser` tag) with `argLine` `-javaagent:${org.mockito:mockito-core:jar}` (via `maven-dependency-plugin:properties`), and `maven-failsafe-plugin` 3.6.1 (`*IT.java`, `verify` goal)
+- [x] generate the Maven wrapper (`mvn wrapper:wrapper`)
+- [x] re-check the Selenium facts listed in Context against the 4.51 sources jar (constructor calls during `super`, `DriverService.stop` closes its executor, `setCommandExecutor`/`setElementConverter`/`newRemoteWebElement` visibility, `ChromiumDriverCommandExecutor` constructor), and update this plan if anything differs (re-checked on 4.51.0: all facts hold; DriverService.stop() calls close(), which shuts down its executor; PortProber lives in selenium-api)
+- [x] write a trivial `SmokeTest` that proves JUnit, AssertJ and Mockito run
+- [x] run `rtk ./mvnw test`; it must pass before task 2
 
 ### Task 2: Platform detection and versions
 
