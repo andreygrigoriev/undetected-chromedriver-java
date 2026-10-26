@@ -181,12 +181,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/PlatformTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/ChromeVersionTest.java`
 
-- [ ] implement `Platform.detect()` from `os.name`/`os.arch`, plus a factory `Platform.of(os, arch, env, home)` for tests
-- [ ] implement the CfT and legacy platform names, exe suffix, and data-dir resolution with upstream precedence (Windows, then LAMBDA, then Linux, then macOS, then fallback)
-- [ ] implement `ChromeVersion.parse`, `major()` and `compareTo`
-- [ ] write tests covering every OS/arch combination → platform name, exe name and data dir, including Linux with `LAMBDA_TASK_ROOT` set
-- [ ] write tests for invalid version strings and for ordering
-- [ ] run tests; they must pass before task 3
+- [x] implement `Platform.detect()` from `os.name`/`os.arch`, plus a factory `Platform.of(os, arch, env, home)` for tests
+- [x] implement the CfT and legacy platform names, exe suffix, and data-dir resolution with upstream precedence (Windows, then LAMBDA, then Linux, then macOS, then fallback)
+- [x] implement `ChromeVersion.parse`, `major()` and `compareTo`
+- [x] write tests covering every OS/arch combination → platform name, exe name and data dir, including Linux with `LAMBDA_TASK_ROOT` set
+- [x] write tests for invalid version strings and for ordering
+- [x] run tests; they must pass before task 3
 
 ### Task 3: Find the Chrome executable and its version
 
