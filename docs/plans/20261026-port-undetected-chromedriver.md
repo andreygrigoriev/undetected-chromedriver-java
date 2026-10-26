@@ -305,11 +305,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/BrowserProcessTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/support/Sleeper.java`
 
-- [ ] implement `launch(binary, args, Mode.CHILD|DETACHED)` with output redirected to `DISCARD`; `DETACHED` prefixes `setsid` only on Linux when it's on PATH
-- [ ] implement a static PID registry, one lazily registered shutdown hook, `pid()`, `isAlive()`, and `terminate(Duration grace)` (destroy, then `destroyForcibly`, then wait on `onExit()`)
-- [ ] write tests that launch `Sleeper` (`java -cp target/test-classes …Sleeper`) in both modes: PID is registered, `terminate` kills it and waits, and it's removed from the registry
-- [ ] write tests for errors: missing binary → `SessionNotCreatedException`, and terminate twice is a no-op
-- [ ] run tests; they must pass before task 12
+- [x] implement `launch(binary, args, Mode.CHILD|DETACHED)` with output redirected to `DISCARD`; `DETACHED` prefixes `setsid` only on Linux when it's on PATH
+- [x] implement a static PID registry, one lazily registered shutdown hook, `pid()`, `isAlive()`, and `terminate(Duration grace)` (destroy, then `destroyForcibly`, then wait on `onExit()`)
+- [x] write tests that launch `Sleeper` (`java -cp target/test-classes …Sleeper`) in both modes: PID is registered, `terminate` kills it and waits, and it's removed from the registry
+- [x] write tests for errors: missing binary → `SessionNotCreatedException`, and terminate twice is a no-op
+- [x] run tests; they must pass before task 12
 
 ### Task 12: `Cdp` HTTP/WebSocket client
 
