@@ -222,11 +222,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/DriverDownloader.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/DriverDownloaderTest.java`
 
-- [ ] implement the streamed download to a temp file with `HttpClient`, then extract the zip entry (handling both new nested and legacy flat layouts)
-- [ ] extract only the expected entry name (no zip-slip), then do an atomic move to the target and set POSIX `rwxr-xr-x` (skipped on Windows)
-- [ ] write tests with in-memory zip archives served by `StubHttpServer` (both layouts)
-- [ ] write tests for a missing entry, a corrupted zip and a 404, each leaving no partial target file
-- [ ] run tests; they must pass before task 6
+- [x] implement the streamed download to a temp file with `HttpClient`, then extract the zip entry (handling both new nested and legacy flat layouts)
+- [x] extract only the expected entry name (no zip-slip), then do an atomic move to the target and set POSIX `rwxr-xr-x` (skipped on Windows)
+- [x] write tests with in-memory zip archives served by `StubHttpServer` (both layouts)
+- [x] write tests for a missing entry, a corrupted zip and a 404, each leaving no partial target file
+- [x] run tests; they must pass before task 6
 
 ### Task 6: Patch the driver binary
 
