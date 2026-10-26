@@ -234,12 +234,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/BinaryPatcher.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/BinaryPatcherTest.java`
 
-- [ ] implement `patch(Path)`: ISO-8859-1 round-trip, regex `\{window\.cdc.*?;\}` with `Pattern.UNIX_LINES`, replace-all of the matched literal with the marker right-padded to the same length, then write back with the size unchanged. Log a warning if the block isn't found
-- [ ] implement `isPatched(Path)` (false if the file is missing) and `parseExeVersion(Path)`
-- [ ] write tests with synthetic binaries (random bytes plus an embedded block plus non-UTF-8 bytes): size unchanged, only the block changed, `isPatched` true, and patching twice changes nothing
-- [ ] write regex-parity tests: a block containing `\r` and `0x85` bytes still matches, a block containing `\n` doesn't, and a block appearing twice gets both copies replaced
-- [ ] write tests for no block found (file untouched), a block shorter than the marker (refuse and leave the file intact), and version parsing
-- [ ] run tests; they must pass before task 7
+- [x] implement `patch(Path)`: ISO-8859-1 round-trip, regex `\{window\.cdc.*?;\}` with `Pattern.UNIX_LINES`, replace-all of the matched literal with the marker right-padded to the same length, then write back with the size unchanged. Log a warning if the block isn't found
+- [x] implement `isPatched(Path)` (false if the file is missing) and `parseExeVersion(Path)`
+- [x] write tests with synthetic binaries (random bytes plus an embedded block plus non-UTF-8 bytes): size unchanged, only the block changed, `isPatched` true, and patching twice changes nothing
+- [x] write regex-parity tests: a block containing `\r` and `0x85` bytes still matches, a block containing `\n` doesn't, and a block appearing twice gets both copies replaced
+- [x] write tests for no block found (file untouched), a block shorter than the marker (refuse and leave the file intact), and version parsing
+- [x] run tests; they must pass before task 7
 
 ### Task 7: `Patcher` orchestration (cache, locking, multi-proc, force kill)
 
