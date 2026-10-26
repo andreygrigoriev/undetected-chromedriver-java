@@ -194,12 +194,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/ChromeLocator.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/ChromeLocatorTest.java`
 
-- [ ] implement candidate generation (PATH entries × names, macOS `.app` paths, Windows env dirs × `Chrome`/`Chrome Beta`/`Chrome SxS`/`Chromium`) in a fixed order, returning the first that exists and is executable
-- [ ] implement `detectVersion(Path)`: run `--version` on POSIX and parse the first `\d+(\.\d+){3}`; on Windows use `reg query`; return an empty `Optional` on failure or a 10 s timeout
-- [ ] make PATH, env and platform injectable for tests
-- [ ] write tests with fake executables under `@TempDir` (found, not executable, not found, order respected)
-- [ ] write tests for parsing version output (`Google Chrome 131.0.6778.85`, `Chromium 130.0.6723.116 snap`, `reg query` output, garbage)
-- [ ] run tests; they must pass before task 4
+- [x] implement candidate generation (PATH entries × names, macOS `.app` paths, Windows env dirs × `Chrome`/`Chrome Beta`/`Chrome SxS`/`Chromium`) in a fixed order, returning the first that exists and is executable
+- [x] implement `detectVersion(Path)`: run `--version` on POSIX and parse the first `\d+(\.\d+){3}`; on Windows use `reg query`; return an empty `Optional` on failure or a 10 s timeout
+- [x] make PATH, env and platform injectable for tests
+- [x] write tests with fake executables under `@TempDir` (found, not executable, not found, order respected)
+- [x] write tests for parsing version output (`Google Chrome 131.0.6778.85`, `Chromium 130.0.6723.116 snap`, `reg query` output, garbage)
+- [x] run tests; they must pass before task 4
 
 ### Task 4: Resolve driver releases
 
