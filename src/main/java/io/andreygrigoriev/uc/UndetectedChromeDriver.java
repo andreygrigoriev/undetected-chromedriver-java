@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.logging.Level;
@@ -51,12 +52,16 @@ public class UndetectedChromeDriver extends ChromeDriver {
     private final LaunchContext context;
     private final AtomicBoolean quitCalled = new AtomicBoolean();
     private final Cleaner.Cleanable cleanable;
+    private final Reactor reactor;
 
     private UndetectedChromeDriver(LaunchContext context) {
         super(context.service().get(), context.attachOptions());
         this.context = context;
         this.cleanable = CLEANER.register(this,
                 new CleanupAction(context.service(), context.browser(), context.profile()));
+        this.reactor = context.enableCdpEvents()
+                ? new Reactor(() -> manage().logs().get(LogType.PERFORMANCE).getAll()).start()
+                : null;
     }
 
     public static Builder newBuilder() {
@@ -74,6 +79,24 @@ public class UndetectedChromeDriver extends ChromeDriver {
     /** A fresh DevTools HTTP/WebSocket client for the browser this driver launched. */
     public Cdp cdp() {
         return new Cdp(context.debuggerAddress());
+    }
+
+    /**
+     * Registers {@code listener} for a CDP event such as {@code Network.responseReceived}, or {@code "*"} for all of
+     * them; a wildcard listener takes precedence. One listener per key. Returns false when CDP events are off.
+     */
+    public boolean addCdpListener(String event, Consumer<Map<String, Object>> listener) {
+        if (reactor == null) {
+            return false;
+        }
+        reactor.addListener(event, listener);
+        return true;
+    }
+
+    public void clearCdpListeners() {
+        if (reactor != null) {
+            reactor.clearListeners();
+        }
     }
 
     /** Opens a new tab at {@code url} through the DevTools HTTP API. */
@@ -160,6 +183,9 @@ public class UndetectedChromeDriver extends ChromeDriver {
         }
         if (!quitCalled.compareAndSet(false, true)) {
             return;
+        }
+        if (reactor != null) {
+            reactor.stop();
         }
         try {
             super.quit();

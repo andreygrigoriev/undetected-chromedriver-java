@@ -384,11 +384,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/ReactorTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/CdpEventsIT.java`
 
-- [ ] implement `Reactor` with an injectable log source (`Supplier<List<LogEntry>>`): 1 s poll, parse JSON, dispatch sequentially on the poll thread to `*` or to the lowercased method, ignore `invalid session id`, `stop()`
-- [ ] add `addCdpListener(String, Consumer<Map<String,Object>>)` (returns false when CDP events are off) and `clearCdpListeners()`, and stop the reactor in `quit()`
-- [ ] write unit tests with a fake log source: wildcard wins, matching is case-insensitive, events arrive in log order, malformed entries are skipped without killing the loop, a throwing handler doesn't stop dispatch, and `stop()` ends the thread
-- [ ] write `CdpEventsIT`: a `Network.responseReceived` listener fires on `get()`
-- [ ] run tests; they must pass before task 17
+- [x] implement `Reactor` with an injectable log source (`Supplier<List<LogEntry>>`): 1 s poll, parse JSON, dispatch sequentially on the poll thread to `*` or to the lowercased method, ignore `invalid session id`, `stop()`
+- [x] add `addCdpListener(String, Consumer<Map<String,Object>>)` (returns false when CDP events are off) and `clearCdpListeners()`, and stop the reactor in `quit()`
+- [x] write unit tests with a fake log source: wildcard wins, matching is case-insensitive, events arrive in log order, malformed entries are skipped without killing the loop, a throwing handler doesn't stop dispatch, and `stop()` ends the thread
+- [x] write `CdpEventsIT`: a `Network.responseReceived` listener fires on `get()`
+- [x] run tests; they must pass before task 17
 
 ### Task 17: `UcWebElement` and advanced elements
 
