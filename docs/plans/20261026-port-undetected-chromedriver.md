@@ -353,11 +353,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/HeadlessEvasionsTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/HeadlessIT.java`
 
-- [ ] copy both JS payloads from upstream into resources. ⚠️ Deliberate deviation: upstream's first script has a duplicated `Object.defineProperty(window, "navigator", {` line, which makes it a syntax error and a no-op. The fixed version really installs a `navigator` Proxy, which itself might be detectable, so verify it against live detectors (Post-Completion) and drop the script if it makes things worse
-- [ ] implement `applyIfNeeded(driver)` with the CDP calls, and override `get(url)` to call it when headless (null-safe during construction)
-- [ ] write unit tests: resources load and are non-empty, and a mocked `HasCdp`/`JavascriptExecutor` gets the right `executeCdpCommand` calls only when `navigator.webdriver` is true
-- [ ] write `HeadlessIT`: UA has no `Headless`, `navigator.webdriver === false`, `window.chrome.runtime` is defined
-- [ ] run tests; they must pass before task 15
+- [x] copy both JS payloads from upstream into resources. ⚠️ Deliberate deviation: upstream's first script has a duplicated `Object.defineProperty(window, "navigator", {` line, which makes it a syntax error and a no-op. The fixed version really installs a `navigator` Proxy, which itself might be detectable, so verify it against live detectors (Post-Completion) and drop the script if it makes things worse
+- [x] implement `applyIfNeeded(driver)` with the CDP calls, and override `get(url)` to call it when headless (null-safe during construction)
+- [x] write unit tests: resources load and are non-empty, and a mocked `HasCdp`/`JavascriptExecutor` gets the right `executeCdpCommand` calls only when `navigator.webdriver` is true
+- [x] write `HeadlessIT`: UA has no `Headless`, `navigator.webdriver === false`, `window.chrome.runtime` is defined
+- [x] run tests; they must pass before task 15
+- ➕ [x] ⚠️ `applyIfNeeded` also patches when the UA contains `Headless` even if `navigator.webdriver` is false: in attach mode webdriver is false but the UA still leaks `HeadlessChrome` (found by `HeadlessIT`)
 
 ### Task 15: Reconnect, windows/tabs, recursive search across frames
 

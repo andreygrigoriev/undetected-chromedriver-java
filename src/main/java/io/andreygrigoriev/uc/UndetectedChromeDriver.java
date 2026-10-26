@@ -61,6 +61,14 @@ public class UndetectedChromeDriver extends ChromeDriver {
     }
 
     @Override
+    public void get(String url) {
+        if (context != null && context.headless()) {
+            HeadlessEvasions.applyIfNeeded(this, this);
+        }
+        super.get(url);
+    }
+
+    @Override
     protected Response execute(CommandPayload payload) {
         if (context != null && context.debug()) {
             LOG.debug("execute {} {}", payload.getName(), payload.getParameters());
