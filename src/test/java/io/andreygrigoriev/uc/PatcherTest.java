@@ -99,6 +99,23 @@ class PatcherTest {
     }
 
     @Test
+    void macPlatformPatchesEvenWhenCodesignFails() throws IOException {
+        Fakes fakes = new Fakes();
+        Platform mac = Platform.of("Mac OS X", "aarch64", Map.of(), tmp);
+        ChromeLocator locator = new ChromeLocator(mac, cmd -> Optional.of("Google Chrome 120.0.6099.109"));
+        Patcher patcher = new Patcher(settings(null, null, 131, false, false), mac, fakes, fakes.downloader, locator);
+
+        Path result = patcher.auto();
+
+        assertThat(BinaryPatcher.isPatched(result)).isTrue();
+    }
+
+    @Test
+    void publicConstructorUsesDetectedPlatform() {
+        assertThat(new Patcher(settings(null, null, 131, false, false))).isNotNull();
+    }
+
+    @Test
     void cacheMissDownloadsAndPatches() {
         Fakes fakes = new Fakes();
 

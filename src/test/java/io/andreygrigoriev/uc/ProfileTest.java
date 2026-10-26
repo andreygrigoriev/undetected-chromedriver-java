@@ -10,6 +10,7 @@ import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class ProfileTest {
 
@@ -74,5 +75,19 @@ class ProfileTest {
         profile.delete();
         assertThat(profile.dir()).doesNotExist();
         assertThatCode(profile::delete).doesNotThrowAnyException();
+    }
+
+    @Test
+    void deleteGivesUpQuietlyWhenDirectoryCannotBeRemoved() throws Exception {
+        Path dir = Files.createDirectory(root.resolve("locked"));
+        Path inner = Files.createDirectory(dir.resolve("inner"));
+        Files.writeString(inner.resolve("f"), "x");
+        assumeTrue(inner.toFile().setWritable(false) && !Files.isWritable(inner), "cannot make a dir read-only");
+        try {
+            assertThatCode(() -> Profile.of(dir, false).delete()).doesNotThrowAnyException();
+            assertThat(inner.resolve("f")).exists();
+        } finally {
+            inner.toFile().setWritable(true);
+        }
     }
 }

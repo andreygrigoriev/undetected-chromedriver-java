@@ -420,11 +420,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - [x] run tests; they must pass before task 19 (skipped - docker unavailable; local unit tests run below)
 
 ### Task 19: Verify acceptance criteria
-- [ ] verify every upstream public API is mapped or explicitly excluded (`devtool.py`, `desired_capabilities`, `keep_alive`, `__hash__`, `__dir__`, `__exit__`)
-- [ ] verify the upstream defects listed in Context are fixed and not copied
-- [ ] port the flow of `example/example.py` against local pages as `ExampleIT` (the live-site version goes in Post-Completion)
-- [ ] run the full test suite: `rtk ./mvnw verify`
-- [ ] confirm unit coverage of the non-browser classes (`Platform`, `DriverReleases`, `BinaryPatcher`, `Patcher`, `Prefs`, `Profile`, `LaunchArguments`, `Reactor`, `Cdp`) is ≥ 80% (add `jacoco-maven-plugin` if needed)
+- [x] verify every upstream public API is mapped or explicitly excluded (`devtool.py`, `desired_capabilities`, `keep_alive`, `__hash__`, `__dir__`, `__exit__`)
+- [x] verify the upstream defects listed in Context are fixed and not copied
+- [x] port the flow of `example/example.py` against local pages as `ExampleIT` (the live-site version goes in Post-Completion)
+- [x] run the full test suite: `rtk ./mvnw verify`
+- [x] confirm unit coverage of the non-browser classes (`Platform`, `DriverReleases`, `BinaryPatcher`, `Patcher`, `Prefs`, `Profile`, `LaunchArguments`, `Reactor`, `Cdp`) is ≥ 80% (add `jacoco-maven-plugin` if needed)
 
 ### Task 20: [Final] Update documentation
 - [ ] write `README.md`: install, quick start (`newBuilder()`), table mapping each Python argument to its builder method, CDP listeners, headless caveats, known differences from upstream (cache, narrowed headless match, fixed JS, dropped args), the `CdpVersionFinder` warning with how to silence it, and a Docker section (`docker build`/`docker run --shm-size=2g`, amd64-only, mounting your own project)
