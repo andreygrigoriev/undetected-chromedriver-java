@@ -278,12 +278,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/Profile.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/ProfileTest.java`
 
-- [ ] implement `Profile.temporary()` and `Profile.of(Path, keep)`
-- [ ] implement `fixExitType()`, which nulls a non-null `profile.exit_type` and ignores a missing or invalid file with a debug log
-- [ ] implement `delete()`, which retries 5× and is a no-op when `keep` is set
-- [ ] write tests: exit_type is fixed and other keys kept, missing file is fine, kept profile survives `delete()`, temp profile is removed
-- [ ] write tests for a corrupt Preferences JSON (no exception)
-- [ ] run tests; they must pass before task 10
+- [x] implement `Profile.temporary()` and `Profile.of(Path, keep)`
+- [x] implement `fixExitType()`, which nulls a non-null `profile.exit_type` and ignores a missing or invalid file with a debug log
+- [x] implement `delete()`, which retries 5× and is a no-op when `keep` is set
+- [x] write tests: exit_type is fixed and other keys kept, missing file is fine, kept profile survives `delete()`, temp profile is removed
+- [x] write tests for a corrupt Preferences JSON (no exception)
+- [x] run tests; they must pass before task 10
 
 ### Task 10: Assemble launch arguments
 
