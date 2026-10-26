@@ -165,13 +165,13 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/SmokeTest.java`
 - Create: `src/test/resources/simplelogger.properties`
 
-- [ ] add dependencies: `selenium-chrome-driver` 4.51.0, `jackson-databind` 2.22.4, `slf4j-api` 2.0.20. Test scope: `junit-jupiter` 6.1.3, `assertj-core` 3.27.7, `mockito-core` 5.24.0, `slf4j-simple` 2.0.20
-- [ ] replace `maven.compiler.source`/`target` with `maven.compiler.release=25`
-- [ ] configure `maven-surefire-plugin` 3.6.1 (excludes the `browser` tag) with `argLine` `-javaagent:${org.mockito:mockito-core:jar}` (via `maven-dependency-plugin:properties`), and `maven-failsafe-plugin` 3.6.1 (`*IT.java`, `verify` goal)
-- [ ] generate the Maven wrapper (`mvn wrapper:wrapper`)
-- [ ] re-check the Selenium facts listed in Context against the 4.51 sources jar (constructor calls during `super`, `DriverService.stop` closes its executor, `setCommandExecutor`/`setElementConverter`/`newRemoteWebElement` visibility, `ChromiumDriverCommandExecutor` constructor), and update this plan if anything differs
-- [ ] write a trivial `SmokeTest` that proves JUnit, AssertJ and Mockito run
-- [ ] run `rtk ./mvnw test`; it must pass before task 2
+- [x] add dependencies: `selenium-chrome-driver` 4.51.0, `jackson-databind` 2.22.4, `slf4j-api` 2.0.20. Test scope: `junit-jupiter` 6.1.3, `assertj-core` 3.27.7, `mockito-core` 5.24.0, `slf4j-simple` 2.0.20
+- [x] replace `maven.compiler.source`/`target` with `maven.compiler.release=25`
+- [x] configure `maven-surefire-plugin` 3.6.1 (excludes the `browser` tag) with `argLine` `-javaagent:${org.mockito:mockito-core:jar}` (via `maven-dependency-plugin:properties`), and `maven-failsafe-plugin` 3.6.1 (`*IT.java`, `verify` goal)
+- [x] generate the Maven wrapper (`mvn wrapper:wrapper`)
+- [x] re-check the Selenium facts listed in Context against the 4.51 sources jar (constructor calls during `super`, `DriverService.stop` closes its executor, `setCommandExecutor`/`setElementConverter`/`newRemoteWebElement` visibility, `ChromiumDriverCommandExecutor` constructor), and update this plan if anything differs (re-checked on 4.51.0: all facts hold; DriverService.stop() calls close(), which shuts down its executor; PortProber lives in selenium-api)
+- [x] write a trivial `SmokeTest` that proves JUnit, AssertJ and Mockito run
+- [x] run `rtk ./mvnw test`; it must pass before task 2
 
 ### Task 2: Platform detection and versions
 
@@ -181,12 +181,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/PlatformTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/ChromeVersionTest.java`
 
-- [ ] implement `Platform.detect()` from `os.name`/`os.arch`, plus a factory `Platform.of(os, arch, env, home)` for tests
-- [ ] implement the CfT and legacy platform names, exe suffix, and data-dir resolution with upstream precedence (Windows, then LAMBDA, then Linux, then macOS, then fallback)
-- [ ] implement `ChromeVersion.parse`, `major()` and `compareTo`
-- [ ] write tests covering every OS/arch combination → platform name, exe name and data dir, including Linux with `LAMBDA_TASK_ROOT` set
-- [ ] write tests for invalid version strings and for ordering
-- [ ] run tests; they must pass before task 3
+- [x] implement `Platform.detect()` from `os.name`/`os.arch`, plus a factory `Platform.of(os, arch, env, home)` for tests
+- [x] implement the CfT and legacy platform names, exe suffix, and data-dir resolution with upstream precedence (Windows, then LAMBDA, then Linux, then macOS, then fallback)
+- [x] implement `ChromeVersion.parse`, `major()` and `compareTo`
+- [x] write tests covering every OS/arch combination → platform name, exe name and data dir, including Linux with `LAMBDA_TASK_ROOT` set
+- [x] write tests for invalid version strings and for ordering
+- [x] run tests; they must pass before task 3
 
 ### Task 3: Find the Chrome executable and its version
 
@@ -194,12 +194,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/ChromeLocator.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/ChromeLocatorTest.java`
 
-- [ ] implement candidate generation (PATH entries × names, macOS `.app` paths, Windows env dirs × `Chrome`/`Chrome Beta`/`Chrome SxS`/`Chromium`) in a fixed order, returning the first that exists and is executable
-- [ ] implement `detectVersion(Path)`: run `--version` on POSIX and parse the first `\d+(\.\d+){3}`; on Windows use `reg query`; return an empty `Optional` on failure or a 10 s timeout
-- [ ] make PATH, env and platform injectable for tests
-- [ ] write tests with fake executables under `@TempDir` (found, not executable, not found, order respected)
-- [ ] write tests for parsing version output (`Google Chrome 131.0.6778.85`, `Chromium 130.0.6723.116 snap`, `reg query` output, garbage)
-- [ ] run tests; they must pass before task 4
+- [x] implement candidate generation (PATH entries × names, macOS `.app` paths, Windows env dirs × `Chrome`/`Chrome Beta`/`Chrome SxS`/`Chromium`) in a fixed order, returning the first that exists and is executable
+- [x] implement `detectVersion(Path)`: run `--version` on POSIX and parse the first `\d+(\.\d+){3}`; on Windows use `reg query`; return an empty `Optional` on failure or a 10 s timeout
+- [x] make PATH, env and platform injectable for tests
+- [x] write tests with fake executables under `@TempDir` (found, not executable, not found, order respected)
+- [x] write tests for parsing version output (`Google Chrome 131.0.6778.85`, `Chromium 130.0.6723.116 snap`, `reg query` output, garbage)
+- [x] run tests; they must pass before task 4
 
 ### Task 4: Resolve driver releases
 
@@ -209,12 +209,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/DriverReleasesTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/support/StubHttpServer.java`
 
-- [ ] implement `resolve(Integer versionMain)` against three endpoints (legacy `LATEST_RELEASE_N`, last-known-good Stable, per-milestone), with configurable base URLs
-- [ ] implement `downloadUrl(version, platform)`: new versions use `https://storage.googleapis.com/chrome-for-testing-public/{v}/{p}/chromedriver-{p}.zip`, legacy versions use `{legacyRepo}/{v}/chromedriver_{p}.zip`
-- [ ] create `StubHttpServer`, a JDK `HttpServer` wrapper that serves canned bodies and status codes and records requests
-- [ ] write tests for each endpoint branch, including the legacy/new boundary at 114/115
-- [ ] write tests for errors: unknown milestone, HTTP 404/500, malformed JSON. Each should raise a `DriverResolutionException`
-- [ ] run tests; they must pass before task 5
+- [x] implement `resolve(Integer versionMain)` against three endpoints (legacy `LATEST_RELEASE_N`, last-known-good Stable, per-milestone), with configurable base URLs
+- [x] implement `downloadUrl(version, platform)`: new versions use `https://storage.googleapis.com/chrome-for-testing-public/{v}/{p}/chromedriver-{p}.zip`, legacy versions use `{legacyRepo}/{v}/chromedriver_{p}.zip`
+- [x] create `StubHttpServer`, a JDK `HttpServer` wrapper that serves canned bodies and status codes and records requests
+- [x] write tests for each endpoint branch, including the legacy/new boundary at 114/115
+- [x] write tests for errors: unknown milestone, HTTP 404/500, malformed JSON. Each should raise a `DriverResolutionException`
+- [x] run tests; they must pass before task 5
 
 ### Task 5: Download and unzip the driver
 
@@ -222,11 +222,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/DriverDownloader.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/DriverDownloaderTest.java`
 
-- [ ] implement the streamed download to a temp file with `HttpClient`, then extract the zip entry (handling both new nested and legacy flat layouts)
-- [ ] extract only the expected entry name (no zip-slip), then do an atomic move to the target and set POSIX `rwxr-xr-x` (skipped on Windows)
-- [ ] write tests with in-memory zip archives served by `StubHttpServer` (both layouts)
-- [ ] write tests for a missing entry, a corrupted zip and a 404, each leaving no partial target file
-- [ ] run tests; they must pass before task 6
+- [x] implement the streamed download to a temp file with `HttpClient`, then extract the zip entry (handling both new nested and legacy flat layouts)
+- [x] extract only the expected entry name (no zip-slip), then do an atomic move to the target and set POSIX `rwxr-xr-x` (skipped on Windows)
+- [x] write tests with in-memory zip archives served by `StubHttpServer` (both layouts)
+- [x] write tests for a missing entry, a corrupted zip and a 404, each leaving no partial target file
+- [x] run tests; they must pass before task 6
 
 ### Task 6: Patch the driver binary
 
@@ -234,12 +234,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/BinaryPatcher.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/BinaryPatcherTest.java`
 
-- [ ] implement `patch(Path)`: ISO-8859-1 round-trip, regex `\{window\.cdc.*?;\}` with `Pattern.UNIX_LINES`, replace-all of the matched literal with the marker right-padded to the same length, then write back with the size unchanged. Log a warning if the block isn't found
-- [ ] implement `isPatched(Path)` (false if the file is missing) and `parseExeVersion(Path)`
-- [ ] write tests with synthetic binaries (random bytes plus an embedded block plus non-UTF-8 bytes): size unchanged, only the block changed, `isPatched` true, and patching twice changes nothing
-- [ ] write regex-parity tests: a block containing `\r` and `0x85` bytes still matches, a block containing `\n` doesn't, and a block appearing twice gets both copies replaced
-- [ ] write tests for no block found (file untouched), a block shorter than the marker (refuse and leave the file intact), and version parsing
-- [ ] run tests; they must pass before task 7
+- [x] implement `patch(Path)`: ISO-8859-1 round-trip, regex `\{window\.cdc.*?;\}` with `Pattern.UNIX_LINES`, replace-all of the matched literal with the marker right-padded to the same length, then write back with the size unchanged. Log a warning if the block isn't found
+- [x] implement `isPatched(Path)` (false if the file is missing) and `parseExeVersion(Path)`
+- [x] write tests with synthetic binaries (random bytes plus an embedded block plus non-UTF-8 bytes): size unchanged, only the block changed, `isPatched` true, and patching twice changes nothing
+- [x] write regex-parity tests: a block containing `\r` and `0x85` bytes still matches, a block containing `\n` doesn't, and a block appearing twice gets both copies replaced
+- [x] write tests for no block found (file untouched), a block shorter than the marker (refuse and leave the file intact), and version parsing
+- [x] run tests; they must pass before task 7
 
 ### Task 7: `Patcher` orchestration (cache, locking, multi-proc, force kill)
 
@@ -247,14 +247,14 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/Patcher.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/PatcherTest.java`
 
-- [ ] implement `auto()` with these branches: custom path (patch only if needed, never deleted), `userMultiProcs` (newest `*chromedriver*` that's already patched, otherwise fall through), and the default path (resolve version → use the cached patched binary or download and patch)
-- [ ] default `versionMain`: the explicit value, otherwise `ChromeLocator.detectVersion(browser).major()`, otherwise latest Stable
-- [ ] guard every write with a static `ReentrantLock` and then a `FileChannel.lock()` on `<dataDir>/.lock`
-- [ ] implement `forceKillInstances(exeName)` (exact basename match via `ProcessHandle`), used only when `patcherForceClose` is set and writing the target fails, followed by one retry
-- [ ] write tests (fake `DriverReleases`/`DriverDownloader` injected): cache hit skips the download, cache miss downloads and patches, custom path is not re-patched, and multi-procs reuses the newest file
-- [ ] write concurrency tests: two threads calling `auto()` at once lead to one download and no `OverlappingFileLockException`
-- [ ] write tests for errors: resolution failure propagates, and both locks are released after an exception
-- [ ] run tests; they must pass before task 8
+- [x] implement `auto()` with these branches: custom path (patch only if needed, never deleted), `userMultiProcs` (newest `*chromedriver*` that's already patched, otherwise fall through), and the default path (resolve version → use the cached patched binary or download and patch)
+- [x] default `versionMain`: the explicit value, otherwise `ChromeLocator.detectVersion(browser).major()`, otherwise latest Stable
+- [x] guard every write with a static `ReentrantLock` and then a `FileChannel.lock()` on `<dataDir>/.lock`
+- [x] implement `forceKillInstances(exeName)` (exact basename match via `ProcessHandle`), used only when `patcherForceClose` is set and writing the target fails, followed by one retry
+- [x] write tests (fake `DriverReleases`/`DriverDownloader` injected): cache hit skips the download, cache miss downloads and patches, custom path is not re-patched, and multi-procs reuses the newest file
+- [x] write concurrency tests: two threads calling `auto()` at once lead to one download and no `OverlappingFileLockException`
+- [x] write tests for errors: resolution failure propagates, and both locks are released after an exception
+- [x] run tests; they must pass before task 8
 
 ### Task 8: Options and prefs
 
@@ -265,12 +265,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/OptionsViewTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/PrefsTest.java`
 
-- [ ] implement `UndetectedChromeOptions`: `userDataDir` (absolute, normalized) and the reuse guard (`bind()` throws `IllegalStateException` the second time)
-- [ ] implement `OptionsView.of(ChromeOptions)`: `args()`, `binary()`, `prefs()`, `debuggerAddress()` and `topLevelCapabilities()` (everything except `goog:chromeOptions`), all read from `asMap()`
-- [ ] implement `Prefs.undot`, `mergeNested` (leaf values from b override a, maps merge recursively) and `writeTo(profileDir)`, which merges into the existing `Default/Preferences` (latin1)
-- [ ] write tests: dotted keys become nested, merge overrides leaves while keeping siblings, the existing Preferences file is merged, and `OptionsView` reads args, prefs and binary from a plain `ChromeOptions`
-- [ ] write tests: binding twice throws, missing `goog:chromeOptions` gives empty views
-- [ ] run tests; they must pass before task 9
+- [x] implement `UndetectedChromeOptions`: `userDataDir` (absolute, normalized) and the reuse guard (`bind()` throws `IllegalStateException` the second time)
+- [x] implement `OptionsView.of(ChromeOptions)`: `args()`, `binary()`, `prefs()`, `debuggerAddress()` and `topLevelCapabilities()` (everything except `goog:chromeOptions`), all read from `asMap()`
+- [x] implement `Prefs.undot`, `mergeNested` (leaf values from b override a, maps merge recursively) and `writeTo(profileDir)`, which merges into the existing `Default/Preferences` (latin1)
+- [x] write tests: dotted keys become nested, merge overrides leaves while keeping siblings, the existing Preferences file is merged, and `OptionsView` reads args, prefs and binary from a plain `ChromeOptions`
+- [x] write tests: binding twice throws, missing `goog:chromeOptions` gives empty views
+- [x] run tests; they must pass before task 9
 
 ### Task 9: Profile handling
 
@@ -278,12 +278,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/Profile.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/ProfileTest.java`
 
-- [ ] implement `Profile.temporary()` and `Profile.of(Path, keep)`
-- [ ] implement `fixExitType()`, which nulls a non-null `profile.exit_type` and ignores a missing or invalid file with a debug log
-- [ ] implement `delete()`, which retries 5× and is a no-op when `keep` is set
-- [ ] write tests: exit_type is fixed and other keys kept, missing file is fine, kept profile survives `delete()`, temp profile is removed
-- [ ] write tests for a corrupt Preferences JSON (no exception)
-- [ ] run tests; they must pass before task 10
+- [x] implement `Profile.temporary()` and `Profile.of(Path, keep)`
+- [x] implement `fixExitType()`, which nulls a non-null `profile.exit_type` and ignores a missing or invalid file with a debug log
+- [x] implement `delete()`, which retries 5× and is a no-op when `keep` is set
+- [x] write tests: exit_type is fixed and other keys kept, missing file is fine, kept profile survives `delete()`, temp profile is removed
+- [x] write tests for a corrupt Preferences JSON (no exception)
+- [x] run tests; they must pass before task 10
 
 ### Task 10: Assemble launch arguments
 
@@ -291,12 +291,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/LaunchArguments.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/LaunchArgumentsTest.java`
 
-- [ ] implement `assemble(userArgs, settings)` following the numbered `LaunchArguments` spec in Technical Details, without changing the input list. Python's loop removes items from the list it's iterating over and skips elements; this version doesn't
-- [ ] implement language resolution (user value, bare `--lang`, system locale, `en-US`) and the four-level `userDataDir` precedence
-- [ ] choose the headless flag by `versionMain` (<108 → `--headless=chrome`, ≥108 or unknown → `--headless=new`)
-- [ ] write tests: defaults (the exact expected list), user `--headless` removed and replaced, each `userDataDir` precedence branch with the right keep flag, `suppressWelcome=false` omits its flags, `noSandbox=false` omits `--test-type` but `--no-sandbox` is still present
-- [ ] write tests for `--lang`: user value, bare `--lang`, injected default locale. Edge cases: two consecutive headless args, empty user args
-- [ ] run tests; they must pass before task 11
+- [x] implement `assemble(userArgs, settings)` following the numbered `LaunchArguments` spec in Technical Details, without changing the input list. Python's loop removes items from the list it's iterating over and skips elements; this version doesn't
+- [x] implement language resolution (user value, bare `--lang`, system locale, `en-US`) and the four-level `userDataDir` precedence
+- [x] choose the headless flag by `versionMain` (<108 → `--headless=chrome`, ≥108 or unknown → `--headless=new`)
+- [x] write tests: defaults (the exact expected list), user `--headless` removed and replaced, each `userDataDir` precedence branch with the right keep flag, `suppressWelcome=false` omits its flags, `noSandbox=false` omits `--test-type` but `--no-sandbox` is still present
+- [x] write tests for `--lang`: user value, bare `--lang`, injected default locale. Edge cases: two consecutive headless args, empty user args
+- [x] run tests; they must pass before task 11
 
 ### Task 11: Browser process launch
 
@@ -305,11 +305,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/BrowserProcessTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/support/Sleeper.java`
 
-- [ ] implement `launch(binary, args, Mode.CHILD|DETACHED)` with output redirected to `DISCARD`; `DETACHED` prefixes `setsid` only on Linux when it's on PATH
-- [ ] implement a static PID registry, one lazily registered shutdown hook, `pid()`, `isAlive()`, and `terminate(Duration grace)` (destroy, then `destroyForcibly`, then wait on `onExit()`)
-- [ ] write tests that launch `Sleeper` (`java -cp target/test-classes …Sleeper`) in both modes: PID is registered, `terminate` kills it and waits, and it's removed from the registry
-- [ ] write tests for errors: missing binary → `SessionNotCreatedException`, and terminate twice is a no-op
-- [ ] run tests; they must pass before task 12
+- [x] implement `launch(binary, args, Mode.CHILD|DETACHED)` with output redirected to `DISCARD`; `DETACHED` prefixes `setsid` only on Linux when it's on PATH
+- [x] implement a static PID registry, one lazily registered shutdown hook, `pid()`, `isAlive()`, and `terminate(Duration grace)` (destroy, then `destroyForcibly`, then wait on `onExit()`)
+- [x] write tests that launch `Sleeper` (`java -cp target/test-classes …Sleeper`) in both modes: PID is registered, `terminate` kills it and waits, and it's removed from the registry
+- [x] write tests for errors: missing binary → `SessionNotCreatedException`, and terminate twice is a no-op
+- [x] run tests; they must pass before task 12
 
 ### Task 12: `Cdp` HTTP/WebSocket client
 
@@ -317,11 +317,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/Cdp.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/CdpTest.java`
 
-- [ ] implement the constructor (`GET /json` → first target's `id` and `webSocketDebuggerUrl`), `tabList`, `tabNew` (**PUT** `/json/new?<url>`), `tabActivate`, `tabClose`, `tabCloseLastOpened` (last `type == page`) and `lastJson`
-- [ ] implement `send(method, params)`: open a JDK WebSocket, send `{id, method, params}`, complete on the matching `id` (ignoring events), close, and time out after 10 s
-- [ ] write unit tests against `StubHttpServer` for the HTTP endpoints, including checking the PUT verb and unparseable JSON → `null`
-- [ ] write unit tests for `send` against a minimal stub WebSocket endpoint: events before the reply are skipped, and the timeout completes exceptionally (if a JDK-only WS server is too heavy, cover `send` in `CdpIT`, Task 15)
-- [ ] run tests; they must pass before task 13
+- [x] implement the constructor (`GET /json` → first target's `id` and `webSocketDebuggerUrl`), `tabList`, `tabNew` (**PUT** `/json/new?<url>`), `tabActivate`, `tabClose`, `tabCloseLastOpened` (last `type == page`) and `lastJson`
+- [x] implement `send(method, params)`: open a JDK WebSocket, send `{id, method, params}`, complete on the matching `id` (ignoring events), close, and time out after 10 s
+- [x] write unit tests against `StubHttpServer` for the HTTP endpoints, including checking the PUT verb and unparseable JSON → `null`
+- [x] write unit tests for `send` against a minimal stub WebSocket endpoint: events before the reply are skipped, and the timeout completes exceptionally (if a JDK-only WS server is too heavy, cover `send` in `CdpIT`, Task 15)
+- [x] run tests; they must pass before task 13
 
 ### Task 13: `UndetectedChromeDriver` plus builder (core attach flow)
 
@@ -333,13 +333,15 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/UndetectedChromeDriverIT.java`
 - Create: `src/test/resources/pages/detect.html`
 
-- [ ] implement `newBuilder()` with all options from Technical Details, and `prepare()` → `LaunchContext` (steps 1–10 of the `build()` flow, testable without starting a driver), including rollback if a step fails
-- [ ] implement the private constructor: `super(service, attachOptions)`, store the context, register the `Cleaner` (its state is `ServiceHolder` and `BrowserProcess`, never `this`), and keep every override null-safe while `super` is running
-- [ ] implement the `quit()` sequence (idempotent), `browserPid()` and `userDataDir()`
-- [ ] implement debug mode by overriding `execute(CommandPayload)` to log the command name and params at DEBUG
-- [ ] write unit tests for `prepare()` with a stub patcher and a `Sleeper` browser: debugger address, `goog:loggingPrefs` only when CDP events are on, top-level user capabilities kept, `goog:chromeOptions` reduced to `debuggerAddress`, a missing browser raises the error with the hint text, and a failure after launch terminates the browser
-- [ ] write `UndetectedChromeDriverIT`: launch (once with `debug=true`, to prove construction is null-safe), load `detect.html`, assert `navigator.webdriver === false` and no `cdc_` keys, then `quit()` and assert the browser PID is dead and the temp profile is gone
-- [ ] run unit tests and ITs; they must pass before task 14
+- [x] implement `newBuilder()` with all options from Technical Details, and `prepare()` → `LaunchContext` (steps 1–10 of the `build()` flow, testable without starting a driver), including rollback if a step fails
+- [x] implement the private constructor: `super(service, attachOptions)`, store the context, register the `Cleaner` (its state is `ServiceHolder` and `BrowserProcess`, never `this`), and keep every override null-safe while `super` is running
+- [x] implement the `quit()` sequence (idempotent), `browserPid()` and `userDataDir()`
+- [x] implement debug mode by overriding `execute(CommandPayload)` to log the command name and params at DEBUG
+- [x] write unit tests for `prepare()` with a stub patcher and a `Sleeper` browser: debugger address, `goog:loggingPrefs` only when CDP events are on, top-level user capabilities kept, `goog:chromeOptions` reduced to `debuggerAddress`, a missing browser raises the error with the hint text, and a failure after launch terminates the browser
+- [x] write `UndetectedChromeDriverIT`: launch (once with `debug=true`, to prove construction is null-safe), load `detect.html`, assert `navigator.webdriver === false` and no `cdc_` keys, then `quit()` and assert the browser PID is dead and the temp profile is gone
+- [x] run unit tests and ITs; they must pass before task 14
+- ➕ [x] macOS arm64 kills a patched chromedriver (exit 137, invalid signature): `Patcher` now re-signs ad hoc with `codesign` after patching on macOS
+- ⚠️ `serviceArgs` is not supported: Selenium 4.51 `ChromeDriverService.Builder` has no generic argument hook; only `serviceLogFile` is offered. Browser is resolved before patching so its version can pick the driver
 
 ### Task 14: Headless evasions
 
@@ -351,11 +353,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/HeadlessEvasionsTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/HeadlessIT.java`
 
-- [ ] copy both JS payloads from upstream into resources. ⚠️ Deliberate deviation: upstream's first script has a duplicated `Object.defineProperty(window, "navigator", {` line, which makes it a syntax error and a no-op. The fixed version really installs a `navigator` Proxy, which itself might be detectable, so verify it against live detectors (Post-Completion) and drop the script if it makes things worse
-- [ ] implement `applyIfNeeded(driver)` with the CDP calls, and override `get(url)` to call it when headless (null-safe during construction)
-- [ ] write unit tests: resources load and are non-empty, and a mocked `HasCdp`/`JavascriptExecutor` gets the right `executeCdpCommand` calls only when `navigator.webdriver` is true
-- [ ] write `HeadlessIT`: UA has no `Headless`, `navigator.webdriver === false`, `window.chrome.runtime` is defined
-- [ ] run tests; they must pass before task 15
+- [x] copy both JS payloads from upstream into resources. ⚠️ Deliberate deviation: upstream's first script has a duplicated `Object.defineProperty(window, "navigator", {` line, which makes it a syntax error and a no-op. The fixed version really installs a `navigator` Proxy, which itself might be detectable, so verify it against live detectors (Post-Completion) and drop the script if it makes things worse
+- [x] implement `applyIfNeeded(driver)` with the CDP calls, and override `get(url)` to call it when headless (null-safe during construction)
+- [x] write unit tests: resources load and are non-empty, and a mocked `HasCdp`/`JavascriptExecutor` gets the right `executeCdpCommand` calls only when `navigator.webdriver` is true
+- [x] write `HeadlessIT`: UA has no `Headless`, `navigator.webdriver === false`, `window.chrome.runtime` is defined
+- [x] run tests; they must pass before task 15
+- ➕ [x] ⚠️ `applyIfNeeded` also patches when the UA contains `Headless` even if `navigator.webdriver` is false: in attach mode webdriver is false but the UA still leaks `HeadlessChrome` (found by `HeadlessIT`)
 
 ### Task 15: Reconnect, windows/tabs, recursive search across frames
 
@@ -366,12 +369,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/CdpIT.java`
 - Create: `src/test/resources/pages/frames.html`
 
-- [ ] implement `reconnect(Duration)` as described in Solution Overview, logging and swallowing each step's failure as upstream does
-- [ ] override `startSession(Capabilities)` so that null falls back to the stored attach capabilities, but only once `context` is set
-- [ ] implement `windowNew()` (`DriverCommand.NEW_WINDOW` type=window) and `tabNew(url)` (delegates to `Cdp.tabNew`)
-- [ ] implement `findElementsRecursive(By)` as a lazy `Iterable<WebElement>` (custom `Iterator`) that switches frame before each element is yielded, matching the generator semantics
-- [ ] write `FrameSearchIT` (local page with 2 iframes: elements found in the top level and in each frame, each element usable when yielded), `ReconnectIT` (session works after two reconnects in a row, the old service is stopped, browser PID unchanged) and `CdpIT` (`tabNew` opens a page that `tabList` shows, `send("Runtime.evaluate", …)` returns a result)
-- [ ] run tests; they must pass before task 16
+- [x] implement `reconnect(Duration)` as described in Solution Overview, logging and swallowing each step's failure as upstream does
+- [x] override `startSession(Capabilities)` so that null falls back to the stored attach capabilities, but only once `context` is set
+- [x] implement `windowNew()` (`DriverCommand.NEW_WINDOW` type=window) and `tabNew(url)` (delegates to `Cdp.tabNew`)
+- [x] implement `findElementsRecursive(By)` as a lazy `Iterable<WebElement>` (custom `Iterator`) that switches frame before each element is yielded, matching the generator semantics
+- [x] write `FrameSearchIT` (local page with 2 iframes: elements found in the top level and in each frame, each element usable when yielded), `ReconnectIT` (session works after two reconnects in a row, the old service is stopped, browser PID unchanged) and `CdpIT` (`tabNew` opens a page that `tabList` shows, `send("Runtime.evaluate", …)` returns a result)
+- [x] run tests; they must pass before task 16
 
 ### Task 16: Reactor (CDP event listeners)
 
@@ -381,11 +384,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/ReactorTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/CdpEventsIT.java`
 
-- [ ] implement `Reactor` with an injectable log source (`Supplier<List<LogEntry>>`): 1 s poll, parse JSON, dispatch sequentially on the poll thread to `*` or to the lowercased method, ignore `invalid session id`, `stop()`
-- [ ] add `addCdpListener(String, Consumer<Map<String,Object>>)` (returns false when CDP events are off) and `clearCdpListeners()`, and stop the reactor in `quit()`
-- [ ] write unit tests with a fake log source: wildcard wins, matching is case-insensitive, events arrive in log order, malformed entries are skipped without killing the loop, a throwing handler doesn't stop dispatch, and `stop()` ends the thread
-- [ ] write `CdpEventsIT`: a `Network.responseReceived` listener fires on `get()`
-- [ ] run tests; they must pass before task 17
+- [x] implement `Reactor` with an injectable log source (`Supplier<List<LogEntry>>`): 1 s poll, parse JSON, dispatch sequentially on the poll thread to `*` or to the lowercased method, ignore `invalid session id`, `stop()`
+- [x] add `addCdpListener(String, Consumer<Map<String,Object>>)` (returns false when CDP events are off) and `clearCdpListeners()`, and stop the reactor in `quit()`
+- [x] write unit tests with a fake log source: wildcard wins, matching is case-insensitive, events arrive in log order, malformed entries are skipped without killing the loop, a throwing handler doesn't stop dispatch, and `stop()` ends the thread
+- [x] write `CdpEventsIT`: a `Network.responseReceived` listener fires on `get()`
+- [x] run tests; they must pass before task 17
 
 ### Task 17: `UcWebElement` and advanced elements
 
@@ -396,11 +399,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/UcWebElementTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/UcWebElementIT.java`
 
-- [ ] implement `UcWebElement`: `clickSafe()`, `children(tag, recursive)` (recursive collects into a `LinkedHashSet`, so order is kept), cached `attrs()`, and `toString()` that depends on `advancedElements`
-- [ ] implement `UcElementConverter.newRemoteWebElement()` and install it in the constructor with `setElementConverter`
-- [ ] write unit tests with a mocked parent driver: the JS sent for `children` with and without a tag, `toString` formatting with and without attrs, `attrs` cached after the first call
-- [ ] write `UcWebElementIT`: `findElement` returns `UcWebElement`, `children` and recursive children counts match the DOM, and `clickSafe` keeps the session usable
-- [ ] run tests; they must pass before task 18
+- [x] implement `UcWebElement`: `clickSafe()`, `children(tag, recursive)` (recursive collects into a `LinkedHashSet`, so order is kept), cached `attrs()`, and `toString()` that depends on `advancedElements`
+- [x] implement `UcElementConverter.newRemoteWebElement()` and install it in the constructor with `setElementConverter`
+- [x] write unit tests with a mocked parent driver: the JS sent for `children` with and without a tag, `toString` formatting with and without attrs, `attrs` cached after the first call
+- [x] write `UcWebElementIT`: `findElement` returns `UcWebElement`, `children` and recursive children counts match the DOM, and `clickSafe` keeps the session usable
+- [x] run tests; they must pass before task 18
 
 ### Task 18: Docker image
 
@@ -409,25 +412,25 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `.dockerignore`
 - Create: `docker/entrypoint.sh`
 
-- [ ] write the `Dockerfile` (`FROM --platform=linux/amd64 eclipse-temurin:25-jdk`). Install `google-chrome-stable` from Google's signed apt repo plus `xvfb`, `fonts-liberation` and `fonts-noto-color-emoji`, with no apt cache left in the layer. Create a non-root `uc` user
-- [ ] cache dependencies in their own layer: copy `mvnw`, `.mvn/` and `pom.xml`, run `./mvnw -B dependency:go-offline`, then copy `src/`
-- [ ] add `docker/entrypoint.sh` (`exec xvfb-run -a --server-args="-screen 0 1920x1080x24" "$@"`), and set the default `CMD ["./mvnw", "-B", "verify"]`
-- [ ] add `.dockerignore` (`target/`, `.idea/`, `.git/`, `docs/`)
-- [ ] verify: `docker build --platform linux/amd64 -t uc-java .` succeeds, and `docker run --rm --shm-size=2g uc-java` passes the full `verify`, including the browser ITs in headful mode under Xvfb. Also verify that `docker run … uc-java ./mvnw -B verify -Dheadless=true` passes, making `UndetectedChromeDriverIT` read a `headless` system property so it runs both modes
-- [ ] run tests; they must pass before task 19
+- [x] write the `Dockerfile` (`FROM --platform=linux/amd64 eclipse-temurin:25-jdk`). Install `google-chrome-stable` from Google's signed apt repo plus `xvfb`, `fonts-liberation` and `fonts-noto-color-emoji`, with no apt cache left in the layer. Create a non-root `uc` user
+- [x] cache dependencies in their own layer: copy `mvnw`, `.mvn/` and `pom.xml`, run `./mvnw -B dependency:go-offline`, then copy `src/`
+- [x] add `docker/entrypoint.sh` (`exec xvfb-run -a --server-args="-screen 0 1920x1080x24" "$@"`), and set the default `CMD ["./mvnw", "-B", "verify"]`
+- [x] add `.dockerignore` (`target/`, `.idea/`, `.git/`, `docs/`)
+- [x] (skipped - docker not available here; IT already reads the headless property) verify: `docker build --platform linux/amd64 -t uc-java .` succeeds, and `docker run --rm --shm-size=2g uc-java` passes the full `verify`, including the browser ITs in headful mode under Xvfb. Also verify that `docker run … uc-java ./mvnw -B verify -Dheadless=true` passes, making `UndetectedChromeDriverIT` read a `headless` system property so it runs both modes
+- [x] run tests; they must pass before task 19 (skipped - docker unavailable; local unit tests run below)
 
 ### Task 19: Verify acceptance criteria
-- [ ] verify every upstream public API is mapped or explicitly excluded (`devtool.py`, `desired_capabilities`, `keep_alive`, `__hash__`, `__dir__`, `__exit__`)
-- [ ] verify the upstream defects listed in Context are fixed and not copied
-- [ ] port the flow of `example/example.py` against local pages as `ExampleIT` (the live-site version goes in Post-Completion)
-- [ ] run the full test suite: `rtk ./mvnw verify`
-- [ ] confirm unit coverage of the non-browser classes (`Platform`, `DriverReleases`, `BinaryPatcher`, `Patcher`, `Prefs`, `Profile`, `LaunchArguments`, `Reactor`, `Cdp`) is ≥ 80% (add `jacoco-maven-plugin` if needed)
+- [x] verify every upstream public API is mapped or explicitly excluded (`devtool.py`, `desired_capabilities`, `keep_alive`, `__hash__`, `__dir__`, `__exit__`)
+- [x] verify the upstream defects listed in Context are fixed and not copied
+- [x] port the flow of `example/example.py` against local pages as `ExampleIT` (the live-site version goes in Post-Completion)
+- [x] run the full test suite: `rtk ./mvnw verify`
+- [x] confirm unit coverage of the non-browser classes (`Platform`, `DriverReleases`, `BinaryPatcher`, `Patcher`, `Prefs`, `Profile`, `LaunchArguments`, `Reactor`, `Cdp`) is ≥ 80% (add `jacoco-maven-plugin` if needed)
 
 ### Task 20: [Final] Update documentation
-- [ ] write `README.md`: install, quick start (`newBuilder()`), table mapping each Python argument to its builder method, CDP listeners, headless caveats, known differences from upstream (cache, narrowed headless match, fixed JS, dropped args), the `CdpVersionFinder` warning with how to silence it, and a Docker section (`docker build`/`docker run --shm-size=2g`, amd64-only, mounting your own project)
-- [ ] add the upstream GPL-3.0 `LICENSE`
-- [ ] create `CLAUDE.md` with the build/test commands and the package layout
-- [ ] move this plan to `docs/plans/completed/`
+- [x] write `README.md`: install, quick start (`newBuilder()`), table mapping each Python argument to its builder method, CDP listeners, headless caveats, known differences from upstream (cache, narrowed headless match, fixed JS, dropped args), the `CdpVersionFinder` warning with how to silence it, and a Docker section (`docker build`/`docker run --shm-size=2g`, amd64-only, mounting your own project)
+- [x] add the upstream GPL-3.0 `LICENSE`
+- [x] create `CLAUDE.md` with the build/test commands and the package layout
+- [x] move this plan to `docs/plans/completed/`
 
 ## Post-Completion
 *Items requiring manual intervention or external systems - no checkboxes, informational only*

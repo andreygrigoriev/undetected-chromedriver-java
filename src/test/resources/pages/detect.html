@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>detect</title></head>
+<body>
+<p id="status">ready</p>
+<script>
+  function cdcKeys() {
+    const pattern = /cdc_|\$cdc_/;
+    return Object.getOwnPropertyNames(window).concat(Object.getOwnPropertyNames(document))
+      .filter(k => pattern.test(k));
+  }
+  window.detection = {
+    webdriver: navigator.webdriver,
+    cdcKeys: cdcKeys(),
+    userAgent: navigator.userAgent
+  };
+</script>
+</body>
+</html>
