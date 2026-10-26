@@ -209,12 +209,12 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/DriverReleasesTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/support/StubHttpServer.java`
 
-- [ ] implement `resolve(Integer versionMain)` against three endpoints (legacy `LATEST_RELEASE_N`, last-known-good Stable, per-milestone), with configurable base URLs
-- [ ] implement `downloadUrl(version, platform)`: new versions use `https://storage.googleapis.com/chrome-for-testing-public/{v}/{p}/chromedriver-{p}.zip`, legacy versions use `{legacyRepo}/{v}/chromedriver_{p}.zip`
-- [ ] create `StubHttpServer`, a JDK `HttpServer` wrapper that serves canned bodies and status codes and records requests
-- [ ] write tests for each endpoint branch, including the legacy/new boundary at 114/115
-- [ ] write tests for errors: unknown milestone, HTTP 404/500, malformed JSON. Each should raise a `DriverResolutionException`
-- [ ] run tests; they must pass before task 5
+- [x] implement `resolve(Integer versionMain)` against three endpoints (legacy `LATEST_RELEASE_N`, last-known-good Stable, per-milestone), with configurable base URLs
+- [x] implement `downloadUrl(version, platform)`: new versions use `https://storage.googleapis.com/chrome-for-testing-public/{v}/{p}/chromedriver-{p}.zip`, legacy versions use `{legacyRepo}/{v}/chromedriver_{p}.zip`
+- [x] create `StubHttpServer`, a JDK `HttpServer` wrapper that serves canned bodies and status codes and records requests
+- [x] write tests for each endpoint branch, including the legacy/new boundary at 114/115
+- [x] write tests for errors: unknown milestone, HTTP 404/500, malformed JSON. Each should raise a `DriverResolutionException`
+- [x] run tests; they must pass before task 5
 
 ### Task 5: Download and unzip the driver
 
