@@ -57,6 +57,7 @@ public class UndetectedChromeDriver extends ChromeDriver {
     private UndetectedChromeDriver(LaunchContext context) {
         super(context.service().get(), context.attachOptions());
         this.context = context;
+        setElementConverter(new UcElementConverter(this, context.advancedElements()));
         this.cleanable = CLEANER.register(this,
                 new CleanupAction(context.service(), context.browser(), context.profile()));
         this.reactor = context.enableCdpEvents()

@@ -399,11 +399,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/test/java/io/andreygrigoriev/uc/UcWebElementTest.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/UcWebElementIT.java`
 
-- [ ] implement `UcWebElement`: `clickSafe()`, `children(tag, recursive)` (recursive collects into a `LinkedHashSet`, so order is kept), cached `attrs()`, and `toString()` that depends on `advancedElements`
-- [ ] implement `UcElementConverter.newRemoteWebElement()` and install it in the constructor with `setElementConverter`
-- [ ] write unit tests with a mocked parent driver: the JS sent for `children` with and without a tag, `toString` formatting with and without attrs, `attrs` cached after the first call
-- [ ] write `UcWebElementIT`: `findElement` returns `UcWebElement`, `children` and recursive children counts match the DOM, and `clickSafe` keeps the session usable
-- [ ] run tests; they must pass before task 18
+- [x] implement `UcWebElement`: `clickSafe()`, `children(tag, recursive)` (recursive collects into a `LinkedHashSet`, so order is kept), cached `attrs()`, and `toString()` that depends on `advancedElements`
+- [x] implement `UcElementConverter.newRemoteWebElement()` and install it in the constructor with `setElementConverter`
+- [x] write unit tests with a mocked parent driver: the JS sent for `children` with and without a tag, `toString` formatting with and without attrs, `attrs` cached after the first call
+- [x] write `UcWebElementIT`: `findElement` returns `UcWebElement`, `children` and recursive children counts match the DOM, and `clickSafe` keeps the session usable
+- [x] run tests; they must pass before task 18
 
 ### Task 18: Docker image
 
