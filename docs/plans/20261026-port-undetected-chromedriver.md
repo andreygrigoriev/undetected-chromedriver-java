@@ -247,14 +247,14 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/Patcher.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/PatcherTest.java`
 
-- [ ] implement `auto()` with these branches: custom path (patch only if needed, never deleted), `userMultiProcs` (newest `*chromedriver*` that's already patched, otherwise fall through), and the default path (resolve version → use the cached patched binary or download and patch)
-- [ ] default `versionMain`: the explicit value, otherwise `ChromeLocator.detectVersion(browser).major()`, otherwise latest Stable
-- [ ] guard every write with a static `ReentrantLock` and then a `FileChannel.lock()` on `<dataDir>/.lock`
-- [ ] implement `forceKillInstances(exeName)` (exact basename match via `ProcessHandle`), used only when `patcherForceClose` is set and writing the target fails, followed by one retry
-- [ ] write tests (fake `DriverReleases`/`DriverDownloader` injected): cache hit skips the download, cache miss downloads and patches, custom path is not re-patched, and multi-procs reuses the newest file
-- [ ] write concurrency tests: two threads calling `auto()` at once lead to one download and no `OverlappingFileLockException`
-- [ ] write tests for errors: resolution failure propagates, and both locks are released after an exception
-- [ ] run tests; they must pass before task 8
+- [x] implement `auto()` with these branches: custom path (patch only if needed, never deleted), `userMultiProcs` (newest `*chromedriver*` that's already patched, otherwise fall through), and the default path (resolve version → use the cached patched binary or download and patch)
+- [x] default `versionMain`: the explicit value, otherwise `ChromeLocator.detectVersion(browser).major()`, otherwise latest Stable
+- [x] guard every write with a static `ReentrantLock` and then a `FileChannel.lock()` on `<dataDir>/.lock`
+- [x] implement `forceKillInstances(exeName)` (exact basename match via `ProcessHandle`), used only when `patcherForceClose` is set and writing the target fails, followed by one retry
+- [x] write tests (fake `DriverReleases`/`DriverDownloader` injected): cache hit skips the download, cache miss downloads and patches, custom path is not re-patched, and multi-procs reuses the newest file
+- [x] write concurrency tests: two threads calling `auto()` at once lead to one download and no `OverlappingFileLockException`
+- [x] write tests for errors: resolution failure propagates, and both locks are released after an exception
+- [x] run tests; they must pass before task 8
 
 ### Task 8: Options and prefs
 
