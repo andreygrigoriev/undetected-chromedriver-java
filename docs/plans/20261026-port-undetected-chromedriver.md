@@ -317,11 +317,11 @@ If any step after 8 fails, terminate the browser and delete the temp profile bef
 - Create: `src/main/java/io/andreygrigoriev/uc/Cdp.java`
 - Create: `src/test/java/io/andreygrigoriev/uc/CdpTest.java`
 
-- [ ] implement the constructor (`GET /json` → first target's `id` and `webSocketDebuggerUrl`), `tabList`, `tabNew` (**PUT** `/json/new?<url>`), `tabActivate`, `tabClose`, `tabCloseLastOpened` (last `type == page`) and `lastJson`
-- [ ] implement `send(method, params)`: open a JDK WebSocket, send `{id, method, params}`, complete on the matching `id` (ignoring events), close, and time out after 10 s
-- [ ] write unit tests against `StubHttpServer` for the HTTP endpoints, including checking the PUT verb and unparseable JSON → `null`
-- [ ] write unit tests for `send` against a minimal stub WebSocket endpoint: events before the reply are skipped, and the timeout completes exceptionally (if a JDK-only WS server is too heavy, cover `send` in `CdpIT`, Task 15)
-- [ ] run tests; they must pass before task 13
+- [x] implement the constructor (`GET /json` → first target's `id` and `webSocketDebuggerUrl`), `tabList`, `tabNew` (**PUT** `/json/new?<url>`), `tabActivate`, `tabClose`, `tabCloseLastOpened` (last `type == page`) and `lastJson`
+- [x] implement `send(method, params)`: open a JDK WebSocket, send `{id, method, params}`, complete on the matching `id` (ignoring events), close, and time out after 10 s
+- [x] write unit tests against `StubHttpServer` for the HTTP endpoints, including checking the PUT verb and unparseable JSON → `null`
+- [x] write unit tests for `send` against a minimal stub WebSocket endpoint: events before the reply are skipped, and the timeout completes exceptionally (if a JDK-only WS server is too heavy, cover `send` in `CdpIT`, Task 15)
+- [x] run tests; they must pass before task 13
 
 ### Task 13: `UndetectedChromeDriver` plus builder (core attach flow)
 
